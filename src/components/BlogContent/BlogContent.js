@@ -4,6 +4,7 @@ import {posts} from '../../share/projectData';
 import {BlogCard} from "./components/BlogCard";
 import {AddPostForm} from "./components/AddPostForm";
 import {EditPostForm} from "./components/EditPostForm";
+import {CommentPost} from "./components/CommentPost";
 
 export class BlogContent extends Component {
 
@@ -11,7 +12,8 @@ export class BlogContent extends Component {
       showAddForm: false,
       showEditForm: false,
       blogArr: JSON.parse(localStorage.getItem('blogPosts')) || posts,
-      selectedPost: {}
+      selectedPost: {},
+      showCommentForm: false,
    };
 
    likePost = pos => {
@@ -58,6 +60,18 @@ export class BlogContent extends Component {
          showEditForm: false,
       })
    }
+   formShowComments = () => {
+      this.setState({
+         showCommentForm: true
+      })
+   }
+   formHideComments = () => {
+      this.setState({
+         showCommentForm: false,
+      })
+   }
+
+
 
    handleSelectPost = (blogPost) => {
       this.setState({
@@ -65,6 +79,17 @@ export class BlogContent extends Component {
       })
    }
 
+
+   commentPost = (CommentedPost) => {
+      this.setState((state) => {
+         const posts = [...this.state.blogArr];
+         posts[CommentedPost.id - 1] = (CommentedPost);
+         localStorage.setItem('blogPosts', JSON.stringify(posts));
+         return {
+            blogArr:posts
+         }
+      })
+   }
 
    editBlogPost = (updatedBlogPost) => {
       this.setState((state) => {
@@ -96,12 +121,15 @@ export class BlogContent extends Component {
             <BlogCard
                key={item.id}
                title={item.title}
+               comment={item.comment}
                description={item.description}
                liked={item.liked}
                likePost={() => this.likePost(pos)}
                deletePost={() => this.deletePost(pos)}
                formShowEdit={this.formShowEdit}
                formHideEdit={this.formHideEdit}
+               formShowComment={this.formShowComments}
+               formHideComment={this.formShowComments}
                handleSelectPost={() => this.handleSelectPost(item)}
             />
          )
@@ -122,6 +150,15 @@ export class BlogContent extends Component {
                      formHideEdit={this.formHideEdit}
                      selectedPost={this.state.selectedPost}
                      editBlogPost={this.editBlogPost}
+                  /> : null
+
+            }
+            {
+               this.state.showCommentForm ?
+                  <CommentPost
+                     formHideComments={this.formHideComments}
+                     selectedPost={this.state.selectedPost}
+                     commentPost={this.commentPost}
                   /> : null
 
             }

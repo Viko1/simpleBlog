@@ -27,7 +27,8 @@ export class EditPostForm extends Component {
          title: this.state.postTitle,
          description: this.state.postDescription,
          liked: this.props.selectedPost.liked,
-      }
+         comment: this.props.selectedPost.comment,
+      };
 
       this.props.editBlogPost(post);
       this.props.formHideEdit(pos)
