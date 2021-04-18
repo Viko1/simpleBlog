@@ -2,10 +2,12 @@ import "./BlogContent.css";
 import {Component} from "react";
 import {posts} from '../../share/projectData';
 import {BlogCard} from "./components/BlogCard";
+import {AddPostForm} from "./components/addPostForm";
 
 export class BlogContent extends Component {
 
    state = {
+      showAddForm: false,
       blogArr: JSON.parse(localStorage.getItem('blogPosts')) || posts
    };
 
@@ -33,6 +35,17 @@ export class BlogContent extends Component {
       }
    }
 
+   formShowAdd = () => {
+      this.setState({
+         showAddForm: true
+      })
+   }
+   formShowHide = () => {
+      this.setState({
+         showAddForm: false,
+      })
+   }
+
    render() {
       const blogPosts = this.state.blogArr.map((item, pos) => {
          return (
@@ -48,7 +61,12 @@ export class BlogContent extends Component {
       });
       return (
          <>
-            <h1>Simple Blog</h1>
+            {
+               this.state.showAddForm ? <AddPostForm formShowHide={this.formShowHide}/> : null
+            }
+
+            <h1>Vitalii Ropiak Blog</h1>
+            <button className="blackButton" onClick={this.formShowAdd}>Create new Post</button>
             <div className="posts">
                {blogPosts}
             </div>

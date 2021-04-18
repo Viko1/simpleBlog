@@ -4,7 +4,8 @@
 .post {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+
 }
 .deleteButton {
     font-size: 40px;
