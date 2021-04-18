@@ -1,0 +1,11 @@
+.post svg {
+    width: 40px;
+}
+.post {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.deleteButton {
+    font-size: 40px;
+}
